@@ -38,6 +38,7 @@ import {
     SpawnCommand,
 } from "@atomist/sdm/api-helper/misc/spawned";
 import { SpawnOptions } from "child_process";
+import * as semver from "semver";
 
 async function loglog(log: ProgressLog, msg: string): Promise<void> {
     logger.debug(msg);
@@ -65,6 +66,32 @@ async function rwlcVersion(gi: GoalInvocation): Promise<string> {
         gi.sdmGoal.branch,
         gi.context);
     return version;
+}
+
+function releaseOrPreRelease(version: string, gi: GoalInvocation): string {
+    const prVersion = preReleaseVersion(gi);
+    if (prVersion) {
+        return prVersion;
+    } else {
+        return releaseVersion(version);
+    }
+}
+
+function preReleaseVersion(gi: GoalInvocation): string | undefined {
+    if (gi.sdmGoal.push.after.tags) {
+        const tag = gi.sdmGoal.push.after.tags.find(t => {
+            const preRelease = semver.prerelease(t.name);
+            if (preRelease && ["M", "RC"].includes(preRelease[0])) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (tag) {
+            return tag.name;
+        }
+    }
+    return undefined;
 }
 
 /**
@@ -251,7 +278,7 @@ export function executeReleaseChangelog(
 
         return projectLoader.doWithProject({ credentials, id, context, readOnly: false }, async p => {
             const version = await rwlcVersion(gi);
-            const versionRelease = releaseVersion(version);
+            const versionRelease = releaseOrPreRelease(version, gi);
             const gp = p as GitCommandGitProject;
 
             const log = new DelimitedWriteProgressLogDecorator(gi.progressLog, "\n");
