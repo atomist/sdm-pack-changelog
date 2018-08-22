@@ -1,6 +1,6 @@
 {
   "name": "@atomist/sdm-pack-changelog",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Extension Pack for an Atomist SDM to manage changelogs",
   "author": {
     "name": "Atomist, Inc."
