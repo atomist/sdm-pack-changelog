@@ -90,7 +90,7 @@ export async function addChangelogEntryForCommit(push: PushWithChangelogLabel.Pu
         GitHubRepoRef.from({ owner: push.repo.owner, repo: push.repo.name, branch: push.branch }));
 
     for (const commit of push.commits) {
-        const categories = [];
+        const categories: string[] = [];
         ChangelogLabels.forEach(l => {
             if (commit.message.toLowerCase().includes(`[changelog:${l}]`)) {
                 categories.push(l);
@@ -139,9 +139,9 @@ async function updateAndWriteChangelog(p: GitProject,
     let changelog = await readChangelog(p);
     for (const category of categories) {
         changelog = addEntryToChangelog({
-                ...entry,
-                category,
-            }
+            ...entry,
+            category,
+        }
             ,
             changelog,
             p);
@@ -210,7 +210,7 @@ export function changelogToString(changelog: any): string {
 ${changelog.description}`;
     }
 
-    (changelog.versions || []).filter(v => v.version !== "0.0.0").forEach(v => {
+    (changelog.versions || []).filter((v: any) => v.version !== "0.0.0").forEach((v: any) => {
         content += `
 
 ## ${v.title}`;
@@ -256,7 +256,7 @@ function readUnreleasedVersion(cl: any, p: GitProject): any {
     } else {
         version = {
             title: `[Unreleased](https://github.com/${p.id.owner}/${p.id.repo}/${
-                cl.versions && cl.versions.filter(v => v.version !== "0.0.0").length > 0 ?
+                cl.versions && cl.versions.filter((v: any) => v.version !== "0.0.0").length > 0 ?
                     `compare/${cl.versions[0].version}...HEAD` : "tree/HEAD"})`,
             parsed: {},
         };

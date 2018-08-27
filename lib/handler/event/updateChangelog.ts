@@ -18,7 +18,9 @@ import {
     EventFired,
     HandlerContext,
     HandlerResult,
+    logger,
     Parameters,
+    Success,
     Value,
 } from "@atomist/automation-client";
 import { OnEvent } from "@atomist/automation-client/onEvent";
@@ -38,25 +40,27 @@ export class TokenParameters {
 }
 
 export const UpdateChangelogForIssueOrPullRequest: OnEvent<any, TokenParameters> =
-    (e: EventFired<any>,
-     ctx: HandlerContext,
-     params: TokenParameters): Promise<HandlerResult> => {
-    if (e.data.Issue) {
-        return addChangelogEntryForClosedIssue(
-            e.data.Issue[0] as ClosedIssueWithChangelogLabel.Issue,
-            params.orgToken);
-    } else if (e.data.PullRequest) {
-        return addChangelogEntryForClosedIssue(
-            e.data.PullRequest[0] as ClosedIssueWithChangelogLabel.Issue,
-            params.orgToken);
-    }
-};
+    (e: EventFired<any>, ctx: HandlerContext, params: TokenParameters): Promise<HandlerResult> => {
+        if (e.data.Issue) {
+            return addChangelogEntryForClosedIssue(
+                e.data.Issue[0] as ClosedIssueWithChangelogLabel.Issue,
+                params.orgToken);
+        } else if (e.data.PullRequest) {
+            return addChangelogEntryForClosedIssue(
+                e.data.PullRequest[0] as ClosedIssueWithChangelogLabel.Issue,
+                params.orgToken);
+        } else {
+            logger.warn(`Received event was neither an Issue nor PullRequest`);
+            return Promise.resolve(Success);
+        }
+    };
 
 export const UpdateChangelogForCommit: OnEvent<PushWithChangelogLabel.Subscription, TokenParameters> =
-    (e: EventFired<PushWithChangelogLabel.Subscription>,
-     ctx: HandlerContext,
-     params: TokenParameters): Promise<HandlerResult> => {
+    (e: EventFired<PushWithChangelogLabel.Subscription>, ctx: HandlerContext, params: TokenParameters): Promise<HandlerResult> => {
         if ((e.data.Push)) {
             return addChangelogEntryForCommit(e.data.Push[0], params.orgToken);
+        } else {
+            logger.warn(`Received event had no Push`);
+            return Promise.resolve(Success);
         }
     };

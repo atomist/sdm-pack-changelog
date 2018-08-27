@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
+import {
+    logger,
+    LoggingConfig,
+} from "@atomist/automation-client";
+LoggingConfig.format = "cli";
+(logger as any).level = process.env.LOG_LEVEL || "info";
 import * as assert from "power-assert";
 import {
     changelogAddRelease,
     formatDate,
-} from "../../src/changelog/releaseGoal";
+} from "../../lib/changelog/releaseGoal";
 
 describe("release", () => {
 
@@ -266,6 +272,174 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
             const n = changelogAddRelease(ct, "0.1.0");
             assert(n === et);
+        });
+
+        it("should create a milestone release section", () => {
+            const cl = `# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased](https://github.com/atomist/atomist-sdm/compare/0.1.1...HEAD)
+
+### Added
+
+-   Publish TypeDoc when Node project is released
+-   Increment version after release
+-   Common build tools to Docker image
+
+### Changed
+
+-   Lein support now uses atomist.sh to build
+
+## [0.1.1](https://github.com/atomist/atomist-sdm/compare/0.1.0...0.1.1) - 2018-05-10
+
+Trigger release
+
+### Changed
+
+-   Version
+
+## [0.1.0](https://github.com/atomist/atomist-sdm/tree/0.1.0) - 2018-05-10
+
+Initial release
+
+### Added
+
+-   Build, deploy, and release automation-client/SDM projects
+-   Build and deploy lein projects
+-   Build TypeScript projects
+`;
+            const el = `# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased](https://github.com/atomist/atomist-sdm/compare/1.0.0-M.2...HEAD)
+
+## [1.0.0-M.2](https://github.com/atomist/atomist-sdm/compare/0.1.1...1.0.0-M.2) - ${date}
+
+### Added
+
+-   Publish TypeDoc when Node project is released
+-   Increment version after release
+-   Common build tools to Docker image
+
+### Changed
+
+-   Lein support now uses atomist.sh to build
+
+## [0.1.1](https://github.com/atomist/atomist-sdm/compare/0.1.0...0.1.1) - 2018-05-10
+
+Trigger release
+
+### Changed
+
+-   Version
+
+## [0.1.0](https://github.com/atomist/atomist-sdm/tree/0.1.0) - 2018-05-10
+
+Initial release
+
+### Added
+
+-   Build, deploy, and release automation-client/SDM projects
+-   Build and deploy lein projects
+-   Build TypeScript projects
+`;
+
+            const n = changelogAddRelease(cl, "1.0.0-M.2");
+            assert(n === el);
+        });
+
+        it("should create a second milestone release section", () => {
+            const cl = `# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased](https://github.com/atomist/atomist-sdm/compare/1.0.0-M.1...HEAD)
+
+### Added
+
+-   Publish TypeDoc when Node project is released
+-   Increment version after release
+-   Common build tools to Docker image
+
+## [1.0.0-M.1](https://github.com/atomist/atomist-sdm/compare/0.1.1...1.0.0-M.1) - 2018-08-01
+
+### Changed
+
+-   Lein support now uses atomist.sh to build
+
+## [0.1.1](https://github.com/atomist/atomist-sdm/compare/0.1.0...0.1.1) - 2018-05-10
+
+Trigger release
+
+### Changed
+
+-   Version
+
+## [0.1.0](https://github.com/atomist/atomist-sdm/tree/0.1.0) - 2018-05-10
+
+Initial release
+
+### Added
+
+-   Build, deploy, and release automation-client/SDM projects
+-   Build and deploy lein projects
+-   Build TypeScript projects
+`;
+            const el = `# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased](https://github.com/atomist/atomist-sdm/compare/1.0.0-M.2...HEAD)
+
+## [1.0.0-M.2](https://github.com/atomist/atomist-sdm/compare/1.0.0-M.1...1.0.0-M.2) - ${date}
+
+### Added
+
+-   Publish TypeDoc when Node project is released
+-   Increment version after release
+-   Common build tools to Docker image
+
+## [1.0.0-M.1](https://github.com/atomist/atomist-sdm/compare/0.1.1...1.0.0-M.1) - 2018-08-01
+
+### Changed
+
+-   Lein support now uses atomist.sh to build
+
+## [0.1.1](https://github.com/atomist/atomist-sdm/compare/0.1.0...0.1.1) - 2018-05-10
+
+Trigger release
+
+### Changed
+
+-   Version
+
+## [0.1.0](https://github.com/atomist/atomist-sdm/tree/0.1.0) - 2018-05-10
+
+Initial release
+
+### Added
+
+-   Build, deploy, and release automation-client/SDM projects
+-   Build and deploy lein projects
+-   Build TypeScript projects
+`;
+
+            const n = changelogAddRelease(cl, "1.0.0-M.2");
+            assert(n === el);
         });
 
     });

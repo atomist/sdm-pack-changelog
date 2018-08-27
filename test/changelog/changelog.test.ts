@@ -25,7 +25,7 @@ import {
     changelogToString,
     readChangelog,
     writeChangelog,
-} from "../../src/changelog/changelog";
+} from "../../lib/changelog/changelog";
 
 describe("changelog", () => {
 
@@ -45,7 +45,7 @@ describe("changelog", () => {
         return readChangelog(p)
             .then(result => {
                 assert(result.title === "Changelog");
-                assert(result.versions.some(v => v.version === "0.0.0"));
+                assert(result.versions.some((v: any) => v.version === "0.0.0"));
             })
             .then(() => fs.removeSync(tcl), err => fs.removeSync(tcl));
     });

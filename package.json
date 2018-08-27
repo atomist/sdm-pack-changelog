@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Extension Pack for an Atomist SDM to manage changelogs",
   "author": {
-    "name": "Atomist, Inc."
+    "name": "Atomist",
+    "email": "support@atomist.com",
+    "url": "https://atomist.com/"
   },
   "license": "Apache-2.0",
   "homepage": "https://github.com/atomist/sdm-pack-changelog#readme",
@@ -22,8 +24,13 @@
   "bugs": {
     "url": "https://github.com/atomist/sdm-pack-changelog/issues"
   },
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "dependencies": {
+    "@atomist/slack-messages": "^0.12.1",
     "@octokit/rest": "^15.10.0",
+    "@types/lodash": "^4.14.116",
+    "@types/semver": "^5.5.0",
     "changelog-parser": "^2.5.0",
     "fs-extra": "^7.0.0",
     "license-checker": "^20.2.0",
@@ -31,7 +38,8 @@
     "remark": "^9.0.0",
     "remark-defsplit": "^1.3.0",
     "remark-inline-links": "^3.1.1",
-    "remark-reference-links": "^4.0.2"
+    "remark-reference-links": "^4.0.2",
+    "semver": "^5.5.1"
   },
   "peerDependencies": {
     "@atomist/automation-client": "*",
@@ -42,14 +50,15 @@
     "@atomist/automation-client": "1.0.0-M.1",
     "@atomist/sdm": "1.0.0-M.1",
     "@atomist/sdm-core": "1.0.0-M.1",
-    "@types/lodash": "^4.14.116",
+    "@types/app-root-path": "^1.2.4",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.7.1",
-    "@types/power-assert": "^1.4.29",
+    "@types/node": "^10.5.7",
+    "@types/power-assert": "^1.5.0",
+    "app-root-path": "^2.1.0",
     "espower-typescript": "^9.0.0",
     "mocha": "^5.2.0",
-    "npm-run-all": "^4.1.2",
-    "power-assert": "^1.4.4",
+    "npm-run-all": "^4.1.3",
+    "power-assert": "^1.6.0",
     "rimraf": "^2.6.2",
     "supervisor": "^0.12.0",
     "ts-node": "^7.0.1",
@@ -61,31 +70,26 @@
     "test": "test"
   },
   "scripts": {
-    "build": "npm-run-all compile test lint typedoc",
-    "clean": "npm-run-all clean:js clean:build",
-    "clean:build": "rimraf *-v8.log profile.txt build",
-    "clean:dist": "npm-run-all clean clean:npm",
-    "clean:js": "rimraf \"{src,test}/**/*.js\"",
+    "autotest": "supervisor --watch index.ts,lib,test --extensions ts --no-restart-on exit --quiet --exec npm -- test",
+    "build": "run-s compile test lint doc",
+    "clean": "run-p clean:compile clean:doc clean:run",
+    "clean:compile": "rimraf git-info.json \"index.{d.ts,js{,.map}}\" \"{lib,test}/**/!(changelogParser).{d.ts,js{,.map}}\" lib/typings/types.ts",
+    "clean:dist": "run-s clean clean:npm",
+    "clean:doc": "rimraf doc",
     "clean:npm": "rimraf node_modules",
-    "compile": "npm-run-all git:info compile:gql compile:ts js:copy",
-    "compile:gql": "npm-run-all gql:gen gql:copy",
+    "clean:run": "rimraf *-v8.log profile.txt log",
+    "compile": "run-s gql:gen compile:ts",
     "compile:ts": "tsc --project .",
-    "git:info": "atm-git-info",
-    "gql:copy": "copyfiles \"./src/**/*.graphql\" build",
+    "doc": "typedoc --mode modules --ignoreCompilerErrors --exclude \"**/*.d.ts\" --out doc index.ts lib",
     "gql:gen": "atm-gql-gen",
-    "js:copy": "copyfiles \"./src/**/*.js\" build",
-    "lint": "npm-run-all lint:ts",
-    "lint:ts": "tslint --format verbose --project . --exclude \"{build,node_modules}/**\" \"**/*.ts\"",
-    "lint:fix": "npm-run-all lint:ts:fix",
-    "lint:ts:fix": "npm run lint:ts -- --fix",
-    "test": "mocha --exit --require espower-typescript/guess \"test/**/*.ts\"",
-    "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.ts}\"",
-    "typedoc": "typedoc --mode modules --excludeExternals --out build/typedoc src",
-    "watch:compile": "tsc --project . --watch",
-    "watch": "supervisor --watch build --quiet --exec npm -- run start"
+    "lint": "tslint --format verbose --project . --exclude \"node_modules/**\" --exclude \"**/*.d.ts\" \"**/*.ts\"",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "mocha --require espower-typescript/guess \"test/**/*.test.ts\"",
+    "test:one": "mocha --require espower-typescript/guess \"test/**/${TEST:-*.test.ts}\"",
+    "typedoc": "npm run doc"
   },
   "engines": {
-    "node": "9.x.x",
-    "npm": "6.x.x"
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
   }
 }
