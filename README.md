@@ -1,6 +1,7 @@
 # @atomist/sdm-pack-changelog
 
 [![atomist sdm goals](http://badge.atomist.com/T29E48P34/atomist/sdm-pack-changelog/357b4015-f10d-4ebd-a825-0d033c1e75bd)](https://app.atomist.com/workspace/T29E48P34)
+[![npm version](https://img.shields.io/npm/v/@atomist/sdm-pack-changelog/next.svg)](https://www.npmjs.com/package/@atomist/sdm-pack-changelog/v/next)
 
 Extension Pack for an Atomist SDM to manage changelogs as per [Keep a Changelog](http://keepachangelog.com/).
 
@@ -47,7 +48,9 @@ If you find a problem, please create an [issue][].
 
 ## Development
 
-You will need to install [node][] to build and test this project.
+You will need to install [Node][node] to build and test this project.
+
+[node]: https://nodejs.org/ (Node.js)
 
 To run tests, define a GITHUB_TOKEN to any valid token that has repo access. The tests
 will create and delete repositories.
@@ -68,23 +71,16 @@ Command | Reason
 
 ### Release
 
-To create a new release of the project, update the version in
-package.json and then push a tag for the version.  The version must be
-of the form `M.N.P` where `M`, `N`, and `P` are integers that form the
-next appropriate [semantic version][semver] for release.  The version
-in the package.json must be the same as the tag.  For example:
+Releases are handled via the [Atomist SDM][atomist-sdm].  Just press
+the 'Approve' button in the Atomist dashboard or Slack.
 
-[semver]: http://semver.org
+[atomist-sdm]: https://github.com/atomist/atomist-sdm (Atomist Software Delivery Machine)
 
-```
-$ npm version 1.2.3
-$ git tag -a -m 'The ABC release' 1.2.3
-$ git push origin 1.2.3
-```
 ---
 
 Created by [Atomist][atomist].
-Need Help?  [Join our Slack team][slack].
+Need Help?  [Join our Slack workspace][slack].
 
-[atomist]: https://atomist.com/ (Atomist - Development Automation)
+[atomist]: https://atomist.com/ (Atomist - How Teams Deliver Software)
 [slack]: https://join.atomist.com/ (Atomist Community Slack)
+
