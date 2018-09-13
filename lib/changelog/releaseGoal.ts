@@ -15,10 +15,10 @@
  */
 
 import {
+    Failure,
     logger,
     Success,
 } from "@atomist/automation-client";
-import { CommandResult } from "@atomist/automation-client/action/cli/commandLine";
 import { GitCommandGitProject } from "@atomist/automation-client/project/git/GitCommandGitProject";
 import {
     ExecuteGoal,
@@ -143,42 +143,15 @@ function spawnExecuteLogger(swc: SpawnWatchCommand): ExecuteLogger {
  * returned or exception caught, the returned code is guaranteed to be
  * non-zero.
  */
-function gitExecuteLogger(gp: GitCommandGitProject, op: () => Promise<CommandResult<GitCommandGitProject>>): ExecuteLogger {
+function gitExecuteLogger(gp: GitCommandGitProject, op: () => Promise<GitCommandGitProject>): ExecuteLogger {
 
     return async (log: ProgressLog) => {
-        let res: CommandResult<GitCommandGitProject>;
         try {
-            res = await op();
+            await op();
         } catch (e) {
-            res = {
-                error: e,
-                success: false,
-                childProcess: {
-                    exitCode: -1,
-                    killed: true,
-                    pid: 99999,
-                },
-                stdout: `Error: ${e.message}`,
-                stderr: `Error: ${e.stack}`,
-                target: gp,
-            };
+            return Failure;
         }
-        log.write(res.stdout);
-        log.write(res.stderr);
-        if (res.error) {
-            res.childProcess.exitCode = (res.childProcess.exitCode === 0) ? 999 : res.childProcess.exitCode;
-        }
-        const message = (res.error && res.error.message) ? res.error.message :
-            ((res.childProcess.exitCode !== 0) ? `Git command failed: ${res.stderr}` : undefined);
-        if (res.childProcess.exitCode !== 0) {
-            logger.error(message);
-            log.write(message);
-        }
-        const egr: ExecuteGoalResult = {
-            code: res.childProcess.exitCode,
-            message,
-        };
-        return egr;
+        return Success;
     };
 }
 

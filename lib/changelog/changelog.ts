@@ -125,7 +125,7 @@ async function updateChangelog(p: GitProject,
         await updateAndWriteChangelog(p, categories, entry);
     }
 
-    if (!(await p.isClean()).success) {
+    if (!(await p.isClean())) {
         await p.commit(`Changelog: #${entry.label} to ${categories.join(", ")}
 
 [atomist:generated]`);
