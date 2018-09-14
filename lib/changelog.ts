@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { subscription } from "@atomist/automation-client/graph/graphQL";
+import { subscription } from "@atomist/automation-client";
 import {
     ExtensionPack,
     Goal,
+    metadata,
 } from "@atomist/sdm";
-import { metadata } from "@atomist/sdm/api-helper/misc/extensionPack";
 import { executeReleaseChangelog } from "./changelog/releaseGoal";
 import { AddChangelogLabels } from "./handler/command/changelogLabels";
 import {

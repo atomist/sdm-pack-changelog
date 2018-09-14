@@ -16,11 +16,13 @@
 
 import {
     Failure,
+    GitCommandGitProject,
     logger,
     Success,
 } from "@atomist/automation-client";
-import { GitCommandGitProject } from "@atomist/automation-client/project/git/GitCommandGitProject";
 import {
+    ChildProcessResult,
+    DelimitedWriteProgressLogDecorator,
     ExecuteGoal,
     ExecuteGoalResult,
     Goal,
@@ -29,14 +31,10 @@ import {
     ProductionEnvironment,
     ProgressLog,
     ProjectLoader,
-} from "@atomist/sdm";
-import { readSdmVersion } from "@atomist/sdm-core";
-import { DelimitedWriteProgressLogDecorator } from "@atomist/sdm/api-helper/log/DelimitedWriteProgressLogDecorator";
-import {
-    ChildProcessResult,
+    readSdmVersion,
     spawnAndWatch,
     SpawnCommand,
-} from "@atomist/sdm/api-helper/misc/spawned";
+} from "@atomist/sdm";
 import { SpawnOptions } from "child_process";
 import * as semver from "semver";
 

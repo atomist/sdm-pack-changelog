@@ -15,13 +15,13 @@
  */
 
 import {
+    GitCommandGitProject,
+    GitHubRepoRef,
+    GitProject,
     HandlerResult,
     Success,
+    TokenCredentials,
 } from "@atomist/automation-client";
-import { GitHubRepoRef } from "@atomist/automation-client/operations/common/GitHubRepoRef";
-import { TokenCredentials } from "@atomist/automation-client/operations/common/ProjectOperationCredentials";
-import { GitCommandGitProject } from "@atomist/automation-client/project/git/GitCommandGitProject";
-import { GitProject } from "@atomist/automation-client/project/git/GitProject";
 import * as fs from "fs-extra";
 import * as _ from "lodash";
 import * as path from "path";
