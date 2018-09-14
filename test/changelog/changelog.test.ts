@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { GitProject } from "@atomist/automation-client/project/git/GitProject";
+import { GitProject } from "@atomist/automation-client";
 import * as appRoot from "app-root-path";
 import * as fs from "fs-extra";
 import * as path from "path";

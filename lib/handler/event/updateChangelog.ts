@@ -19,11 +19,11 @@ import {
     HandlerContext,
     HandlerResult,
     logger,
+    OnEvent,
     Parameters,
     Success,
     Value,
 } from "@atomist/automation-client";
-import { OnEvent } from "@atomist/automation-client/onEvent";
 import {
     addChangelogEntryForClosedIssue,
     addChangelogEntryForCommit,
