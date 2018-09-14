@@ -15,13 +15,15 @@
  */
 
 import {
+    ChildProcessResult,
     Failure,
     GitCommandGitProject,
     logger,
+    spawnAndWatch,
+    SpawnCommand,
     Success,
 } from "@atomist/automation-client";
 import {
-    ChildProcessResult,
     DelimitedWriteProgressLogDecorator,
     ExecuteGoal,
     ExecuteGoalResult,
@@ -31,10 +33,8 @@ import {
     ProductionEnvironment,
     ProgressLog,
     ProjectLoader,
-    readSdmVersion,
-    spawnAndWatch,
-    SpawnCommand,
 } from "@atomist/sdm";
+import { readSdmVersion } from "@atomist/sdm-core";
 import { SpawnOptions } from "child_process";
 import * as semver from "semver";
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { subscription } from "@atomist/automation-client";
+import { subscription } from "@atomist/automation-client/lib/graph/graphQL";
 import {
     ExtensionPack,
     Goal,
