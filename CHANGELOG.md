@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/sdm-pack-changelog/compare/1.0.0-M.3...HEAD)
 
+### Fixed
+
+-   Do not modify change log for unmerged PRs. [#13](https://github.com/atomist/sdm-pack-changelog/issues/13)
+
 ## [1.0.0-M.3](https://github.com/atomist/sdm-pack-changelog/compare/1.0.0-M.1...1.0.0-M.3) - 2018-09-04
 
 ### Fixed
