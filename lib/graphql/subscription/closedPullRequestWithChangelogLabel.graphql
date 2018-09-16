@@ -1,9 +1,9 @@
 subscription closedPullRequestWithChangelogLabel {
-  PullRequest(state: "closed") {
+  PullRequest(state: "closed", merged: true) {
     number
     title
     labels @required {
-      name @matches(re: "(changelog:.*|breaking)")
+      name @matches(re: "(changelog:.* breaking)")
     }
     repo {
       owner
