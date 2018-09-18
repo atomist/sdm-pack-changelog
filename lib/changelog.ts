@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { subscription } from "@atomist/automation-client/lib/graph/graphQL";
+import { GraphQL } from "@atomist/automation-client";
 import {
     ExtensionPack,
     Goal,
@@ -53,7 +53,7 @@ export function changelogSupport(goal?: Goal): ExtensionPack {
                     name: "UpdateChangelogOnIssue",
                     description: "Update CHANGELOG.md on a closed label",
                     tags: [ "github", "changelog", "issue" ],
-                    subscription: subscription("closedIssueWithChangelogLabel"),
+                    subscription: GraphQL.subscription("closedIssueWithChangelogLabel"),
                     paramsMaker: TokenParameters,
                     listener: UpdateChangelogForIssueOrPullRequest,
                 })
@@ -61,7 +61,7 @@ export function changelogSupport(goal?: Goal): ExtensionPack {
                     name: "UpdateChangelogOnPullRequest",
                     description: "Update CHANGELOG.md on a closed pull request",
                     tags: [ "github", "changelog", "pr" ],
-                    subscription: subscription("closedPullRequestWithChangelogLabel"),
+                    subscription: GraphQL.subscription("closedPullRequestWithChangelogLabel"),
                     paramsMaker: TokenParameters,
                     listener: UpdateChangelogForIssueOrPullRequest,
                 })
@@ -69,7 +69,7 @@ export function changelogSupport(goal?: Goal): ExtensionPack {
                     name: "UpdateChangelogOnPush",
                     description: "Update CHANGELOG.md on a push",
                     tags: [ "github", "changelog", "commit" ],
-                    subscription: subscription("pushWithChangelogLabel"),
+                    subscription: GraphQL.subscription("pushWithChangelogLabel"),
                     paramsMaker: TokenParameters,
                     listener: UpdateChangelogForCommit,
                 });

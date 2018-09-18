@@ -68,7 +68,7 @@ export async function addChangelogEntryForClosedIssue(issue: ClosedIssueWithChan
     const qualifiers = issue.labels.some(l => l.name.toLocaleLowerCase() === "breaking") ? ["breaking"] : [];
     const entry: ChangelogEntry = {
         title: issue.title,
-        label: issue.number.toString(),
+        label: `#${issue.number.toString()}`,
         url,
         qualifiers,
     };
@@ -126,7 +126,7 @@ async function updateChangelog(p: GitProject,
     }
 
     if (!(await p.isClean())) {
-        await p.commit(`Changelog: #${entry.label} to ${categories.join(", ")}
+        await p.commit(`Changelog: ${entry.label} to ${categories.join(", ")}
 
 [atomist:generated]`);
         await p.push();
@@ -185,7 +185,7 @@ export function addEntryToChangelog(entry: ChangelogEntry,
     const category = _.upperFirst(entry.category || "changed");
     const qualifiers = (entry.qualifiers || []).map(q => `**${q.toLocaleUpperCase()}**`).join(" ");
     const title = entry.title.endsWith(".") ? entry.title : `${entry.title}.`;
-    const line = `-   ${qualifiers && qualifiers.length > 0 ? `${qualifiers} ` : ""}${title} [#${entry.label}](${entry.url})`;
+    const line = `-   ${qualifiers && qualifiers.length > 0 ? `${qualifiers} ` : ""}${title} [${entry.label}](${entry.url})`;
     if (version.parsed[category]) {
         version.parsed[category].push(line);
 

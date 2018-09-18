@@ -68,7 +68,7 @@ describe("changelog", () => {
             },
         } as any as GitProject;
         const entry: ChangelogEntry = {
-            label: "1",
+            label: "#1",
             title: "This is a test label",
             category: "added",
             url: "https://github.com/atomist/test/issues/1",
@@ -90,7 +90,7 @@ describe("changelog", () => {
             },
         } as any as GitProject;
         const entry: ChangelogEntry = {
-            label: "1",
+            label: "#1",
             title: "Something useful was added",
             category: "added",
             url: "https://github.com/atomist/test/issues/1",
