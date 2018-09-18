@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/sdm-pack-changelog/compare/1.0.0-M.4...HEAD)
 
+### Fixed
+
+-   Git SHAs should not be prepended with a hash. [#16](https://github.com/atomist/sdm-pack-changelog/issues/16)
+
 ## [1.0.0-M.4](https://github.com/atomist/sdm-pack-changelog/compare/1.0.0-M.3...1.0.0-M.4) - 2018-09-16
 
 ### Fixed
