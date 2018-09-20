@@ -1,7 +1,8 @@
 subscription closedPullRequestWithChangelogLabel {
-  PullRequest(state: "closed", merged: true) {
+  PullRequest(state: "closed") {
     number
     title
+    merged
     labels @required {
       name @matches(re: "(changelog:.*|breaking)")
     }

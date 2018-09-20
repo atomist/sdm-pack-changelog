@@ -30,6 +30,7 @@ import {
 } from "../../changelog/changelog";
 import {
     ClosedIssueWithChangelogLabel,
+    ClosedPullRequestWithChangelogLabel,
     PushWithChangelogLabel,
 } from "../../typings/types";
 
@@ -46,9 +47,17 @@ export const UpdateChangelogForIssueOrPullRequest: OnEvent<any, TokenParameters>
                 e.data.Issue[0] as ClosedIssueWithChangelogLabel.Issue,
                 params.orgToken);
         } else if (e.data.PullRequest) {
-            return addChangelogEntryForClosedIssue(
-                e.data.PullRequest[0] as ClosedIssueWithChangelogLabel.Issue,
-                params.orgToken);
+            const pr = e.data.PullRequest[0] as ClosedPullRequestWithChangelogLabel.PullRequest;
+            // Move that check back into subscription once https://github.com/atomisthq/automation-api/issues/517 is
+            // fixed
+            if (pr.merged) {
+                return addChangelogEntryForClosedIssue(
+                    e.data.PullRequest[0] as ClosedIssueWithChangelogLabel.Issue,
+                    params.orgToken);
+            } else {
+                logger.debug(`PullRequest isn't merged`);
+                return Promise.resolve(Success);
+            }
         } else {
             logger.warn(`Received event was neither an Issue nor PullRequest`);
             return Promise.resolve(Success);
