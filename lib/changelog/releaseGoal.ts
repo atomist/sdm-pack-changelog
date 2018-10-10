@@ -27,12 +27,8 @@ import {
     DelimitedWriteProgressLogDecorator,
     ExecuteGoal,
     ExecuteGoalResult,
-    Goal,
     GoalInvocation,
-    GoalWithPrecondition,
-    ProductionEnvironment,
     ProgressLog,
-    ProjectLoader,
 } from "@atomist/sdm";
 import { readSdmVersion } from "@atomist/sdm-core";
 import { SpawnOptions } from "child_process";
@@ -186,30 +182,6 @@ export function formatDate(date?: Date): string {
 }
 
 /**
- * Create a Changelog goal with preConditions if provided
- * @param {Goal} preConditions
- * @returns {Goal}
- */
-export function releaseChangelogGoal(...preConditions: Goal[]): Goal {
-    const goal = new Goal({
-        uniqueName: "ReleaseChangeLog",
-        environment: ProductionEnvironment,
-        orderedName: "3-release-change-log",
-        displayName: "update changelog",
-        workingDescription: "Updating changelog",
-        completedDescription: "Updated changelog",
-        failedDescription: "Updating changelog failure",
-        isolated: true,
-    });
-
-    if (preConditions && preConditions.length > 0) {
-        return new GoalWithPrecondition(goal.definition, ...preConditions);
-    } else {
-        return goal;
-    }
-}
-
-/**
  * Modify changelog text to add release.
  *
  * @param changelog original changelog content
@@ -241,14 +213,12 @@ export function changelogAddRelease(changelog: string, version: string): string 
 /**
  * Create entry in changelog for release.
  */
-export function executeReleaseChangelog(
-    projectLoader: ProjectLoader,
-): ExecuteGoal {
+export function executeReleaseChangelog(): ExecuteGoal {
 
     return async (gi: GoalInvocation): Promise<ExecuteGoalResult> => {
-        const { credentials, id, context } = gi;
+        const { credentials, id, context, configuration } = gi;
 
-        return projectLoader.doWithProject({ credentials, id, context, readOnly: false }, async p => {
+        return configuration.sdm.projectLoader.doWithProject({ credentials, id, context, readOnly: false }, async p => {
             const version = await rwlcVersion(gi);
             const versionRelease = releaseOrPreRelease(version, gi);
             const gp = p as GitCommandGitProject;

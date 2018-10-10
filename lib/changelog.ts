@@ -17,10 +17,8 @@
 import { GraphQL } from "@atomist/automation-client";
 import {
     ExtensionPack,
-    Goal,
     metadata,
 } from "@atomist/sdm";
-import { executeReleaseChangelog } from "./changelog/releaseGoal";
 import { AddChangelogLabels } from "./handler/command/changelogLabels";
 import {
     TokenParameters,
@@ -35,18 +33,10 @@ import {
  * @param {Goal} goal
  * @returns {ExtensionPack}
  */
-export function changelogSupport(goal?: Goal): ExtensionPack {
+export function changelogSupport(): ExtensionPack {
     return {
         ...metadata(),
         configure: sdm => {
-
-            if (goal) {
-                sdm.addGoalImplementation(
-                    "releaseChangelog",
-                    goal,
-                    executeReleaseChangelog(sdm.configuration.sdm.projectLoader),
-                );
-            }
 
             sdm.addCommand(AddChangelogLabels);
             sdm.addEvent({

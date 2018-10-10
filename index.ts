@@ -15,5 +15,5 @@
  */
 
 export { changelogSupport } from "./lib/changelog";
-
-export { executeReleaseChangelog, releaseChangelogGoal } from "./lib/changelog/releaseGoal";
+export { Changelog } from "./lib/goal/Changelog";
+export { executeReleaseChangelog } from "./lib/changelog/releaseGoal";
