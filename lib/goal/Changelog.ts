@@ -24,7 +24,6 @@ export class Changelog extends FulfillableGoal {
         super({
             ...ChangelogDefinition,
             ...getGoalDefinitionFrom(goalDetailsOrUniqueName, DefaultGoalNameGenerator.generateName("changelog")),
-            displayName: "autofix",
         }, ...dependsOn);
 
         this.addFulfillment({
