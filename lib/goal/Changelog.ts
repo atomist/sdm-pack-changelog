@@ -35,7 +35,6 @@ export class Changelog extends FulfillableGoal {
     }
 }
 
-
 const ChangelogDefinition: GoalDefinition = {
     uniqueName: "ReleaseChangeLog",
     environment: ProductionEnvironment,
