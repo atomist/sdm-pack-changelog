@@ -20,7 +20,6 @@ import {
     GitProject,
     HandlerResult,
     Success,
-    TokenCredentials,
 } from "@atomist/automation-client";
 import * as fs from "fs-extra";
 import * as _ from "lodash";
@@ -60,7 +59,7 @@ export interface ChangelogEntry {
 export async function addChangelogEntryForClosedIssue(issue: ClosedIssueWithChangelogLabel.Issue,
                                                       token: string): Promise<HandlerResult> {
     const p = await GitCommandGitProject.cloned(
-        { token } as TokenCredentials,
+        { token },
         GitHubRepoRef.from({ owner: issue.repo.owner, repo: issue.repo.name }));
 
     const url = `https://github.com/${issue.repo.owner}/${issue.repo.name}/issues/${issue.number}`;
@@ -86,7 +85,7 @@ export async function addChangelogEntryForClosedIssue(issue: ClosedIssueWithChan
 export async function addChangelogEntryForCommit(push: PushWithChangelogLabel.Push,
                                                  token: string): Promise<HandlerResult> {
     const p = await GitCommandGitProject.cloned(
-        { token } as TokenCredentials,
+        { token },
         GitHubRepoRef.from({ owner: push.repo.owner, repo: push.repo.name, branch: push.branch }));
 
     for (const commit of push.commits) {
@@ -113,7 +112,7 @@ export async function addChangelogEntryForCommit(push: PushWithChangelogLabel.Pu
 
 async function updateChangelog(p: GitProject,
                                categories: string[],
-                               entry: ChangelogEntry) {
+                               entry: ChangelogEntry): Promise<void> {
     const cl = await p.getFile("CHANGELOG.md");
     if (cl) {
         // If changelog exists make sure it doesn't already contain the label
@@ -185,7 +184,8 @@ export function addEntryToChangelog(entry: ChangelogEntry,
     const category = _.upperFirst(entry.category || "changed");
     const qualifiers = (entry.qualifiers || []).map(q => `**${q.toLocaleUpperCase()}**`).join(" ");
     const title = entry.title.endsWith(".") ? entry.title : `${entry.title}.`;
-    const line = `-   ${qualifiers && qualifiers.length > 0 ? `${qualifiers} ` : ""}${title} [${entry.label}](${entry.url})`;
+    const prefix = (qualifiers && qualifiers.length > 0) ? `${qualifiers} ` : "";
+    const line = `-   ${prefix}${title} [${entry.label}](${entry.url})`;
     if (version.parsed[category]) {
         version.parsed[category].push(line);
 

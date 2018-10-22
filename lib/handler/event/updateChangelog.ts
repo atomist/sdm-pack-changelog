@@ -65,7 +65,12 @@ export const UpdateChangelogForIssueOrPullRequest: OnEvent<any, TokenParameters>
     };
 
 export const UpdateChangelogForCommit: OnEvent<PushWithChangelogLabel.Subscription, TokenParameters> =
-    (e: EventFired<PushWithChangelogLabel.Subscription>, ctx: HandlerContext, params: TokenParameters): Promise<HandlerResult> => {
+    (
+        e: EventFired<PushWithChangelogLabel.Subscription>,
+        ctx: HandlerContext,
+        params: TokenParameters,
+    ): Promise<HandlerResult> => {
+
         if ((e.data.Push)) {
             return addChangelogEntryForCommit(e.data.Push[0], params.orgToken);
         } else {
