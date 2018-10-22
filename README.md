@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://images.atomist.com/sdm/SDM-Logo-Dark.png">
+</p>
+
 # @atomist/sdm-pack-changelog
 
 [![atomist sdm goals](http://badge.atomist.com/T29E48P34/atomist/sdm-pack-changelog/357b4015-f10d-4ebd-a825-0d033c1e75bd)](https://app.atomist.com/workspace/T29E48P34)
@@ -17,35 +21,49 @@ to create a goal that can get added to your SDM. This goal will
 convert the `Unreleased` section of the `CHANGELOG.md` to a versioned
 section.
 
-See the [Atomist documentation][atomist-doc] for more information on
-what SDMs are and what they can do for you using the Atomist API for
-software.
+Software delivery machines enable you to control your delivery process
+in code.  Think of it as an API for your software delivery.  See the
+[Atomist documentation][atomist-doc] for more information on the
+concept of a software delivery machine and how to create and develop
+an SDM.
 
 [atomist-doc]: https://docs.atomist.com/ (Atomist Documentation)
 
-## Usage
+## Getting started
 
-1. First install the dependency in your SDM project
+See the [Developer Quick Start][atomist-quick] to jump straight to
+creating an SDM.
 
-```
-$ npm install @atomist/sdm-pack-changelog
-```
+[atomist-quick]: https://docs.atomist.com/quick-start/ (Atomist - Developer Quick Start)
 
-2. Install the support
+## Contributing
 
-```
-import { changelogSupport } from "@atomist/sdm-pack-changelog";
+Contributions to this project from community members are encouraged
+and appreciated. Please review the [Contributing
+Guidelines](CONTRIBUTING.md) for more information. Also see the
+[Development](#development) section in this document.
 
-sdm.addExtensionPacks(
-    changelogSupport()
-);
-```
+## Code of conduct
 
-3. Add configuration to your client configuration
+This project is governed by the [Code of
+Conduct](CODE_OF_CONDUCT.md). You are expected to act in accordance
+with this code by participating. Please report any unacceptable
+behavior to code-of-conduct@atomist.com.
 
-```
-// no configuration needed
-```
+## Documentation
+
+Please see [docs.atomist.com][atomist-doc] for
+[developer][atomist-doc-sdm] documentation.
+
+[atomist-doc-sdm]: https://docs.atomist.com/developer/sdm/ (Atomist Documentation - SDM Developer)
+
+## Connect
+
+Follow [@atomist][atomist-twitter] and [The Composition][atomist-blog]
+blog related to SDM.
+
+[atomist-twitter]: https://twitter.com/atomist (Atomist on Twitter)
+[atomist-blog]: https://the-composition.com/ (The Composition - The Official Atomist Blog)
 
 ## Support
 
