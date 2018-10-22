@@ -118,7 +118,8 @@ function spawnExecuteLogger(swc: SpawnWatchCommand): ExecuteLogger {
         }
         if (res.error) {
             if (!res.message) {
-                res.message = `Spawned command failed (status:${res.code}): ${swc.cmd.command} ${swc.cmd.args.join(" ")}`;
+                res.message = `Spawned command failed (status:${res.code}): ${swc.cmd.command} ` +
+                    swc.cmd.args.join(" ");
             }
             logger.error(res.message);
             log.write(res.message);

@@ -18,8 +18,9 @@ import { executeReleaseChangelog } from "../changelog/releaseGoal";
  */
 export class Changelog extends FulfillableGoal {
 
-    constructor(goalDetailsOrUniqueName: FulfillableGoalDetails | string = DefaultGoalNameGenerator.generateName("changelog"),
-                ...dependsOn: Goal[]) {
+    constructor(
+        goalDetailsOrUniqueName: FulfillableGoalDetails | string = DefaultGoalNameGenerator.generateName("changelog"),
+        ...dependsOn: Goal[]) {
 
         super({
             ...ChangelogDefinition,

@@ -15,6 +15,7 @@
  */
 
 import {
+    HandlerResult,
     MappedParameter,
     MappedParameters,
     Parameters,
@@ -24,6 +25,7 @@ import {
 } from "@atomist/automation-client";
 import { CommandHandlerRegistration } from "@atomist/sdm";
 import { bold } from "@atomist/slack-messages";
+import * as GitHubApi from "@octokit/rest";
 import * as github from "../../util/gitHubApi";
 import { success } from "../../util/messages";
 
@@ -63,28 +65,84 @@ export const AddChangelogLabels: CommandHandlerRegistration<ChangelogParameters>
     tags: ["github", "changelog", "label"],
     paramsMaker: ChangelogParameters,
     listener: async cli => {
-        const api = github.api(cli.parameters.githubToken, cli.parameters.apiUrl);
-
-        ChangelogLabels.forEach(async l => {
-            const name = `changelog:${l}`;
-            try {
-                await api.issues.getLabel({
-                    name,
-                    repo: cli.parameters.repo,
-                    owner: cli.parameters.owner,
-                });
-            } catch (err) {
-                await api.issues.createLabel({
-                    owner: cli.parameters.owner,
-                    repo: cli.parameters.repo,
-                    name,
-                    color: "C5DB71",
-                });
-            }
+        const result = await upsertChangelogLabels({
+            api: github.api(cli.parameters.githubToken, cli.parameters.apiUrl),
+            owner: cli.parameters.owner,
+            repo: cli.parameters.repo,
         });
-        await cli.context.messageClient.respond(success(
-            "Changelog",
-            `Successfully added changelog labels to ${bold(`${cli.parameters.owner}/${cli.parameters.repo}`)}`));
-        return Success;
+        const msg = (result.code === 0) ?
+            `Successfully added changelog labels to ${bold(cli.parameters.owner + "/" + cli.parameters.repo)}` :
+            result.message;
+        await cli.context.messageClient.respond(success("Changelog Labels", msg));
+        return result;
     },
 };
+
+/**
+ * Information needed to check and create a label.
+ */
+interface UpsertChangelogLabelsInfo {
+    /** @octokit/rest API to use to query and create label. */
+    api: GitHubApi;
+    /** Name of repository in which to create label */
+    repo: string;
+    /** Owner of repository in which to create label */
+    owner: string;
+}
+
+export async function upsertChangelogLabels(info: UpsertChangelogLabelsInfo): Promise<HandlerResult> {
+    const labels: UpsertLabelInfo[] = ChangelogLabels.map(l => ({
+        api: info.api,
+        owner: info.owner,
+        repo: info.repo,
+        name: `changelog:${l}`,
+        color: "C5DB71",
+    }));
+    labels.push({
+        api: info.api,
+        owner: info.owner,
+        repo: info.repo,
+        name: "breaking",
+        color: "B60205",
+    });
+    try {
+        await Promise.all(labels.map(l => upsertLabel(l)));
+    } catch (e) {
+        const message = `Failed to add changelog labels to ${info.owner}/${info.repo}: ${e.message}`;
+        return { code: 1, message };
+    }
+    return Success;
+}
+
+/**
+ * Information needed to check and create a label.
+ */
+interface UpsertLabelInfo extends UpsertChangelogLabelsInfo {
+    /** Name of label to upsert */
+    name: string;
+    /** Color of label */
+    color: string;
+}
+
+/**
+ * Create a label if it does not exist.
+ *
+ * @param info label details
+ */
+async function upsertLabel(info: UpsertLabelInfo): Promise<void> {
+    try {
+        await info.api.issues.getLabel({
+            name: info.name,
+            repo: info.repo,
+            owner: info.owner,
+        });
+    } catch (err) {
+        await info.api.issues.createLabel({
+            owner: info.owner,
+            repo: info.repo,
+            name: info.name,
+            color: info.color,
+        });
+    }
+
+}
