@@ -249,7 +249,7 @@ export function executeReleaseChangelog(): ExecuteGoal {
                 const compareUrlRegExp = new RegExp(`^\\[${versionRelease}\\]: (http\\S*)`, "m");
                 const compareUrlMatch = compareUrlRegExp.exec(newChangelog);
                 if (compareUrlMatch && compareUrlMatch.length > 1 && compareUrlMatch[1]) {
-                    egr.targetUrl = compareUrlMatch[1];
+                    egr.externalUrls = [{ label: "Changelog", url: compareUrlMatch[1] }];
                 }
                 if (newChangelog === changelog) {
                     egr.message = `Changelog already contains release ${versionRelease}`;
