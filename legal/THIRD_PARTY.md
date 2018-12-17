@@ -14,18 +14,17 @@ This page details all runtime OSS dependencies of `@atomist/sdm-pack-changelog`.
 |[BSD-2-Clause](#bsd-2-clause)|1|
 |[BSD-3-Clause](#bsd-3-clause)|1|
 |[BSD](#bsd)|1|
-|[CC-BY-3.0](#cc-by-30)|3|
+|[CC-BY-3.0](#cc-by-30)|2|
 |[CC0-1.0](#cc0-10)|1|
 |[ISC](#isc)|24|
-|[MIT](#mit)|122|
-|[Unlicense](#unlicense)|1|
+|[MIT](#mit)|125|
 
 #### Apache-2.0
 Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 | Name | Version | Publisher | Repository |
 |------|---------|-----------|------------|
-|`@atomist/slack-messages`|`1.1.0`|Atomist|[https://github.com/atomist/slack-messages](https://github.com/atomist/slack-messages)|
+|`@atomist/slack-messages`|`1.1.0-master.20181115202354`|Atomist|[https://github.com/atomist/slack-messages](https://github.com/atomist/slack-messages)|
 |`before-after-hook`|`1.2.0`|Gregor Martynus|[https://github.com/gr2m/before-after-hook](https://github.com/gr2m/before-after-hook)|
 |`spdx-correct`|`3.1.0`|Kyle E. Mitchell|[https://github.com/jslicense/spdx-correct.js](https://github.com/jslicense/spdx-correct.js)|
 |`validate-npm-package-license`|`3.0.4`|Kyle E. Mitchell|[https://github.com/kemitchell/validate-npm-package-license.js](https://github.com/kemitchell/validate-npm-package-license.js)|
@@ -48,14 +47,13 @@ BSD 3-Clause "New" or "Revised" License - [http://www.opensource.org/licenses/BS
 
 | Name | Version | Publisher | Repository |
 |------|---------|-----------|------------|
-|`license-checker`|`24.0.1`|Dav Glass|[https://github.com/davglass/license-checker](https://github.com/davglass/license-checker)|
+|`license-checker`|`24.1.0`|Dav Glass|[https://github.com/davglass/license-checker](https://github.com/davglass/license-checker)|
 
 #### CC-BY-3.0
 Creative Commons Attribution 3.0 Unported - [http://creativecommons.org/licenses/by/3.0/legalcode](http://creativecommons.org/licenses/by/3.0/legalcode)
 
 | Name | Version | Publisher | Repository |
 |------|---------|-----------|------------|
-|`spdx-exceptions`|`1.0.5`|The Linux Foundation|[https://github.com/kemitchell/spdx-exceptions.json](https://github.com/kemitchell/spdx-exceptions.json)|
 |`spdx-exceptions`|`2.2.0`|The Linux Foundation|[https://github.com/kemitchell/spdx-exceptions.json](https://github.com/kemitchell/spdx-exceptions.json)|
 |`spdx-ranges`|`2.0.0`|The Linux Foundation|[https://github.com/kemitchell/spdx-ranges.js](https://github.com/kemitchell/spdx-ranges.js)|
 
@@ -103,9 +101,13 @@ MIT License - [http://www.opensource.org/licenses/MIT](http://www.opensource.org
 |------|---------|-----------|------------|
 |`@octokit/endpoint`|`3.1.1`|Gregor Martynus|[https://github.com/octokit/endpoint.js](https://github.com/octokit/endpoint.js)|
 |`@octokit/request`|`2.2.0`|Gregor Martynus|[https://github.com/octokit/request.js](https://github.com/octokit/request.js)|
-|`@octokit/rest`|`16.1.0`|Gregor Martynus|[https://github.com/octokit/rest.js](https://github.com/octokit/rest.js)|
-|`@types/lodash`|`4.14.118`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
+|`@octokit/rest`|`16.2.0`|Gregor Martynus|[https://github.com/octokit/rest.js](https://github.com/octokit/rest.js)|
+|`@types/lodash`|`4.14.119`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
+|`@types/node`|`10.12.15`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
 |`@types/semver`|`5.5.0`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
+|`@types/unist`|`2.0.2`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
+|`@types/vfile-message`|`1.0.1`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
+|`@types/vfile`|`3.0.2`||[https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)|
 |`ansi-styles`|`3.2.1`|Sindre Sorhus|[https://github.com/chalk/ansi-styles](https://github.com/chalk/ansi-styles)|
 |`array-find-index`|`1.0.2`|Sindre Sorhus|[https://github.com/sindresorhus/array-find-index](https://github.com/sindresorhus/array-find-index)|
 |`asap`|`2.0.6`||[https://github.com/kriskowal/asap](https://github.com/kriskowal/asap)|
@@ -196,8 +198,7 @@ MIT License - [http://www.opensource.org/licenses/MIT](http://www.opensource.org
 |`slash`|`1.0.0`|Sindre Sorhus|[https://github.com/sindresorhus/slash](https://github.com/sindresorhus/slash)|
 |`spdx-compare`|`1.0.0`|Kyle E. Mitchell|[https://github.com/kemitchell/spdx-compare.js](https://github.com/kemitchell/spdx-compare.js)|
 |`spdx-expression-parse`|`3.0.0`|Kyle E. Mitchell|[https://github.com/jslicense/spdx-expression-parse.js](https://github.com/jslicense/spdx-expression-parse.js)|
-|`spdx-satisfies`|`4.0.0`|Kyle E. Mitchell|[https://github.com/kemitchell/spdx-satisfies.js](https://github.com/kemitchell/spdx-satisfies.js)|
-|`spdx`|`0.5.2`|Kyle E. Mitchell|[https://github.com/kemitchell/spdx.js](https://github.com/kemitchell/spdx.js)|
+|`spdx-satisfies`|`4.0.1`|Kyle E. Mitchell|[https://github.com/kemitchell/spdx-satisfies.js](https://github.com/kemitchell/spdx-satisfies.js)|
 |`state-toggle`|`1.0.1`|Titus Wormer|[https://github.com/wooorm/state-toggle](https://github.com/wooorm/state-toggle)|
 |`stringify-entities`|`1.3.2`|Titus Wormer|[https://github.com/wooorm/stringify-entities](https://github.com/wooorm/stringify-entities)|
 |`strip-eof`|`1.0.0`|Sindre Sorhus|[https://github.com/sindresorhus/strip-eof](https://github.com/sindresorhus/strip-eof)|
@@ -207,7 +208,7 @@ MIT License - [http://www.opensource.org/licenses/MIT](http://www.opensource.org
 |`trim`|`0.0.1`|TJ Holowaychuk||
 |`trough`|`1.0.3`|Titus Wormer|[https://github.com/wooorm/trough](https://github.com/wooorm/trough)|
 |`unherit`|`1.1.1`|Titus Wormer|[https://github.com/wooorm/unherit](https://github.com/wooorm/unherit)|
-|`unified`|`7.0.2`|Titus Wormer|[https://github.com/unifiedjs/unified](https://github.com/unifiedjs/unified)|
+|`unified`|`7.1.0`|Titus Wormer|[https://github.com/unifiedjs/unified](https://github.com/unifiedjs/unified)|
 |`unist-util-index`|`1.1.0`|Eugene Sharygin|[https://github.com/syntax-tree/unist-util-index](https://github.com/syntax-tree/unist-util-index)|
 |`unist-util-is`|`2.1.2`|Titus Wormer|[https://github.com/syntax-tree/unist-util-is](https://github.com/syntax-tree/unist-util-is)|
 |`unist-util-remove-position`|`1.1.2`|Titus Wormer|[https://github.com/syntax-tree/unist-util-remove-position](https://github.com/syntax-tree/unist-util-remove-position)|
@@ -218,18 +219,11 @@ MIT License - [http://www.opensource.org/licenses/MIT](http://www.opensource.org
 |`universalify`|`0.1.2`|Ryan Zimmerman|[https://github.com/RyanZim/universalify](https://github.com/RyanZim/universalify)|
 |`util-extend`|`1.0.3`||[https://github.com/isaacs/util-extend](https://github.com/isaacs/util-extend)|
 |`vfile-location`|`2.0.4`|Titus Wormer|[https://github.com/vfile/vfile-location](https://github.com/vfile/vfile-location)|
-|`vfile-message`|`1.0.2`|Titus Wormer|[https://github.com/vfile/vfile-message](https://github.com/vfile/vfile-message)|
+|`vfile-message`|`1.1.0`|Titus Wormer|[https://github.com/vfile/vfile-message](https://github.com/vfile/vfile-message)|
 |`vfile`|`3.0.1`|Titus Wormer|[https://github.com/vfile/vfile](https://github.com/vfile/vfile)|
 |`windows-release`|`3.1.0`|Sindre Sorhus|[https://github.com/sindresorhus/windows-release](https://github.com/sindresorhus/windows-release)|
 |`x-is-string`|`0.1.0`|Matt-Esch|[https://github.com/Matt-Esch/x-is-string](https://github.com/Matt-Esch/x-is-string)|
 |`xtend`|`4.0.1`|Raynos|[https://github.com/Raynos/xtend](https://github.com/Raynos/xtend)|
-
-#### Unlicense
-The Unlicense - [http://unlicense.org/](http://unlicense.org/)
-
-| Name | Version | Publisher | Repository |
-|------|---------|-----------|------------|
-|`spdx-license-ids`|`1.2.2`|Shinnosuke Watanabe|[https://github.com/shinnn/spdx-license-ids](https://github.com/shinnn/spdx-license-ids)|
 
 ## Contact
 
