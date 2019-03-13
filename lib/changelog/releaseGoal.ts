@@ -15,12 +15,9 @@
  */
 
 import {
-    ChildProcessResult,
     Failure,
     GitCommandGitProject,
     logger,
-    spawnAndWatch,
-    SpawnCommand,
     Success,
 } from "@atomist/automation-client";
 import {
@@ -29,9 +26,9 @@ import {
     ExecuteGoalResult,
     GoalInvocation,
     ProgressLog,
+    spawnLog,
 } from "@atomist/sdm";
 import { readSdmVersion } from "@atomist/sdm-core";
-import { SpawnOptions } from "child_process";
 import * as semver from "semver";
 
 async function loglog(log: ProgressLog, msg: string): Promise<void> {
@@ -47,17 +44,18 @@ function releaseVersion(version: string): string {
 type ExecuteLogger = (l: ProgressLog) => Promise<ExecuteGoalResult>;
 
 interface SpawnWatchCommand {
-    cmd: SpawnCommand;
+    cmd: string;
+    args: string[];
     cwd?: string;
 }
 
 async function rwlcVersion(gi: GoalInvocation): Promise<string> {
     const version = await readSdmVersion(
-        gi.sdmGoal.repo.owner,
-        gi.sdmGoal.repo.name,
-        gi.sdmGoal.repo.providerId,
-        gi.sdmGoal.sha,
-        gi.sdmGoal.branch,
+        gi.goalEvent.repo.owner,
+        gi.goalEvent.repo.name,
+        gi.goalEvent.repo.providerId,
+        gi.goalEvent.sha,
+        gi.goalEvent.branch,
         gi.context);
     return version;
 }
@@ -72,8 +70,8 @@ function releaseOrPreRelease(version: string, gi: GoalInvocation): string {
 }
 
 function preReleaseVersion(gi: GoalInvocation): string | undefined {
-    if (gi.sdmGoal.push.after.tags) {
-        const tag = gi.sdmGoal.push.after.tags.find(t => {
+    if (gi.goalEvent.push.after.tags) {
+        const tag = gi.goalEvent.push.after.tags.find(t => {
             const preRelease = semver.prerelease(t.name);
             if (preRelease && ["M", "RC"].includes(preRelease[0])) {
                 return true;
@@ -99,27 +97,19 @@ function preReleaseVersion(gi: GoalInvocation): string | undefined {
 function spawnExecuteLogger(swc: SpawnWatchCommand): ExecuteLogger {
 
     return async (log: ProgressLog) => {
-        const opts: SpawnOptions = {
-            ...swc.cmd.options,
-        };
-        if (swc.cwd) {
-            opts.cwd = swc.cwd;
-        }
-        let res: ChildProcessResult;
+        let res: any;
         try {
-            res = await spawnAndWatch(swc.cmd, opts, log);
+            res = await spawnLog(swc.cmd, swc.args, { log, cwd: swc.cwd });
         } catch (e) {
             res = {
-                error: true,
                 code: -1,
-                message: `Spawned command errored: ${swc.cmd.command} ${swc.cmd.args.join(" ")}: ${e.message}`,
-                childProcess: undefined,
+                message: `Spawned command errored: ${swc.cmd} ${swc.args.join(" ")}: ${e.message}`,
             };
         }
         if (res.error) {
             if (!res.message) {
-                res.message = `Spawned command failed (status:${res.code}): ${swc.cmd.command} ` +
-                    swc.cmd.args.join(" ");
+                res.message = `Spawned command failed (status:${res.code}): ${swc.cmd} ` +
+                    swc.args.join(" ");
             }
             logger.error(res.message);
             log.write(res.message);
@@ -226,11 +216,11 @@ export function executeReleaseChangelog(): ExecuteGoal {
 
             const log = new DelimitedWriteProgressLogDecorator(gi.progressLog, "\n");
             const slug = `${gp.id.owner}/${gp.id.repo}`;
-            const branch = gi.sdmGoal.branch;
+            const branch = gi.goalEvent.branch;
             const remote = gp.remote || "origin";
             const preEls: ExecuteLogger[] = [
                 gitExecuteLogger(gp, () => gp.checkout(branch)),
-                spawnExecuteLogger({ cmd: { command: "git", args: ["pull", remote, branch] }, cwd: gp.baseDir }),
+                spawnExecuteLogger({ cmd: "git", args: ["pull", remote, branch] , cwd: gp.baseDir }),
             ];
             await loglog(log, `Pulling branch ${branch} of ${slug}`);
             const preRes = await executeLoggers(preEls, gi.progressLog);

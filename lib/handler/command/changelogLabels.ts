@@ -106,7 +106,7 @@ export async function upsertChangelogLabels(info: UpsertChangelogLabelsInfo): Pr
         color: "B60205",
     });
     try {
-        await Promise.all(labels.map(l => upsertLabel(l)));
+        await Promise.all(labels.map(upsertLabel));
     } catch (e) {
         const message = `Failed to add changelog labels to ${info.owner}/${info.repo}: ${e.message}`;
         return { code: 1, message };
