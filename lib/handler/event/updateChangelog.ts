@@ -21,9 +21,16 @@ import {
     logger,
     OnEvent,
     Parameters,
+    Secret,
+    Secrets,
     Success,
+    TokenCredentials,
     Value,
 } from "@atomist/automation-client";
+import {
+    CredentialsResolver,
+    resolveCredentialsPromise,
+} from "@atomist/sdm";
 import {
     addChangelogEntryForClosedIssue,
     addChangelogEntryForCommit,
@@ -36,12 +43,20 @@ import {
 
 @Parameters()
 export class TokenParameters {
-    @Value("token")
+    @Secret(Secrets.OrgToken)
     public orgToken: string;
+
+    @Value("sdm.credentialsResolver")
+    public credentialsResolver: CredentialsResolver;
+
 }
 
 export const UpdateChangelogForIssueOrPullRequest: OnEvent<any, TokenParameters> =
-    (e: EventFired<any>, ctx: HandlerContext, params: TokenParameters): Promise<HandlerResult> => {
+    async (e: EventFired<any>, ctx: HandlerContext, params: TokenParameters): Promise<HandlerResult> => {
+
+        const creds =
+            await resolveCredentialsPromise(params.credentialsResolver.eventHandlerCredentials(ctx)) as TokenCredentials;
+
         if (e.data.Issue) {
             return addChangelogEntryForClosedIssue(
                 e.data.Issue[0] as ClosedIssueWithChangelogLabel.Issue,
@@ -53,28 +68,31 @@ export const UpdateChangelogForIssueOrPullRequest: OnEvent<any, TokenParameters>
             if (pr.merged) {
                 return addChangelogEntryForClosedIssue(
                     e.data.PullRequest[0] as ClosedIssueWithChangelogLabel.Issue,
-                    params.orgToken);
+                    creds.token);
             } else {
                 logger.debug(`PullRequest isn't merged`);
-                return Promise.resolve(Success);
+                return Success;
             }
         } else {
             logger.warn(`Received event was neither an Issue nor PullRequest`);
-            return Promise.resolve(Success);
+            return Success;
         }
     };
 
 export const UpdateChangelogForCommit: OnEvent<PushWithChangelogLabel.Subscription, TokenParameters> =
-    (
+    async (
         e: EventFired<PushWithChangelogLabel.Subscription>,
         ctx: HandlerContext,
         params: TokenParameters,
     ): Promise<HandlerResult> => {
 
+        const creds =
+            await resolveCredentialsPromise(params.credentialsResolver.eventHandlerCredentials(ctx)) as TokenCredentials;
+
         if ((e.data.Push)) {
-            return addChangelogEntryForCommit(e.data.Push[0], params.orgToken);
+            return addChangelogEntryForCommit(e.data.Push[0], creds.token);
         } else {
             logger.warn(`Received event had no Push`);
-            return Promise.resolve(Success);
+            return Success;
         }
     };
