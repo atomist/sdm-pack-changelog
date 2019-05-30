@@ -27,7 +27,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@atomist/slack-messages": "^1.1.0",
+    "@atomist/slack-messages": "1.1.1-master.20190217194316",
     "@octokit/rest": "^16.1.0",
     "@types/lodash": "^4.14.123",
     "@types/semver": "^5.5.0",
@@ -47,9 +47,9 @@
     "@atomist/sdm-core": ">=1.3.0"
   },
   "devDependencies": {
-    "@atomist/automation-client": "1.4.1-master.20190503175050",
-    "@atomist/sdm": "1.5.0-master.20190508003011",
-    "@atomist/sdm-core": "1.5.0-master.20190507223221",
+    "@atomist/automation-client": "1.5.2-master.20190529233036",
+    "@atomist/sdm": "1.5.1-master.20190529213155",
+    "@atomist/sdm-core": "1.5.1-master.20190529231632",
     "@types/app-root-path": "^1.2.4",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.11.3",
