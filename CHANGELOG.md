@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist/sdm-pack-changelog/compare/1.0.2...HEAD)
 
+### Changed
+
+-   Update access to token. [dfb3491](https://github.com/atomist/sdm-pack-changelog/commit/dfb3491b7f4e73fa8140812affbc99199f724950)
+
 ## [1.0.2](https://github.com/atomist/sdm-pack-changelog/compare/1.0.1...1.0.2) - 2019-03-20
 
 ## [1.0.1](https://github.com/atomist/sdm-pack-changelog/compare/1.0.0-RC.2...1.0.1) - 2018-11-09
