@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 -   Update access to token. [dfb3491](https://github.com/atomist/sdm-pack-changelog/commit/dfb3491b7f4e73fa8140812affbc99199f724950)
+-   Have TypeScript compiler generate declaration maps. [44fbc52](https://github.com/atomist/sdm-pack-changelog/commit/44fbc523363042d7f517515c4c5d9500cc22c8fb)
 
 ## [1.0.2](https://github.com/atomist/sdm-pack-changelog/compare/1.0.1...1.0.2) - 2019-03-20
 
